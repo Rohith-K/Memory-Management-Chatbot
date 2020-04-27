@@ -1,5 +1,7 @@
 build/*
+debug/*
 src/.vscode/
+
 
 # Prerequisites
 *.d

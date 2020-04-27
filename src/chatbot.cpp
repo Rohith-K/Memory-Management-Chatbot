@@ -42,11 +42,8 @@ ChatBot::~ChatBot()
     }
 }
 
-//// STUDENT CODE
-////
-
 ChatBot::ChatBot(const ChatBot& source){
-    std::cout << "ChatBot: Copy Contructor" << std::endl;
+    std::cout << "ChatBot Copy Contructor" << std::endl;
     if(this==&source)
         return;
     _image = new wxBitmap();
@@ -54,54 +51,52 @@ ChatBot::ChatBot(const ChatBot& source){
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
-    std::cout << "ChatBot: Copy Contructor" << std::endl;
+    _chatLogic->SetChatbotHandle(this);
 }
 
 ChatBot& ChatBot::operator=(const ChatBot& source){
-    std::cout << "ChatBot: Copy Assignment" << std::endl;
+    std::cout << "ChatBot Copy Assignment" << std::endl;
     if(this == &source)
         return *this;
-    _image = new wxBitmap();
     *_image = *source._image;
     _currentNode = source._currentNode;
     _rootNode = source._rootNode;
     _chatLogic = source._chatLogic;
+    _chatLogic->SetChatbotHandle(this);
+    return *this;
 }
 
 ChatBot::ChatBot(ChatBot&& source){
-    std::cout << "ChatBot: Move Constructor" << std::endl;
-    
+    std::cout << "ChatBot Move Constructor" << std::endl;
     _image = source._image;
     source._image = nullptr;
-    
     _currentNode = source._currentNode;
     source._currentNode = nullptr;
-    
     _rootNode = source._rootNode;
     source._rootNode = nullptr;
-
     _chatLogic = source._chatLogic;
     source._chatLogic = nullptr;
+    _chatLogic->SetChatbotHandle(this);
 }
 
 ChatBot& ChatBot::operator=(ChatBot&& source){
-    std::cout << "ChatBot: Move Assignment" << std::endl;
+    std::cout << "ChatBot Move Assignment Operator" << std::endl;
     
+    if(this == &source)
+        return *this;
+    delete _image;
+    _image = new wxBitmap();
     _image = source._image;
     source._image = nullptr;
-
     _currentNode = source._currentNode;
     source._currentNode = nullptr;
-
     _rootNode = source._rootNode;
     source._rootNode = nullptr;
-
     _chatLogic = source._chatLogic;
     source._chatLogic = nullptr;
+    _chatLogic->SetChatbotHandle(this);
+    return *this;
 }
-
-////
-//// EOF STUDENT CODE
 
 void ChatBot::ReceiveMessageFromUser(std::string message)
 {
